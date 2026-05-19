@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Конструктор ритуальных венков</title>
+  <title>ВенокПро | Ритуальные венки</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,70 +12,87 @@
     <div class="container header__inner">
       <div class="logo">🌸 ВенокПро</div>
       <nav class="nav">
-        <a href="#" class="nav-link">Главная</a>
-        <a href="#" class="nav-link active">Конструктор</a>
-        <a href="#" class="nav-link">Контакты</a>
+        <a href="#catalog">Каталог</a>
+        <a href="#delivery">Доставка</a>
+        <a href="#contacts">Контакты</a>
       </nav>
+      <a href="tel:+79990000000" class="phone">+7 (999) 000-00-00</a>
     </div>
   </header>
 
-  <main class="container">
-    <h1 class="title">Собери свой венок</h1>
+  <main>
+    <section class="hero">
+      <div class="container hero__content">
+        <h1>Ритуальные венки с доставкой</h1>
+        <p>Изготовление за 1,5 часа. Натуральные материалы. Гравировка ленты в подарок.</p>
+        <a href="#catalog" class="btn">Посмотреть каталог</a>
+      </div>
+    </section>
 
-    <div class="constructor">
-      <!-- Левая панель: настройки -->
-      <aside class="sidebar">
-        <section class="panel">
-          <h3>1. Основа</h3>
-          <div class="wreath-options">
-            <button class="option-btn active">Круг</button>
-            <button class="option-btn">Овал</button>
-            <button class="option-btn">Сердце</button>
-          </div>
-        </section>
-
-        <section class="panel">
-          <h3>2. Цветы</h3>
-          <p class="hint">Выбери головку и кликни на поле венка</p>
-          
-          
-          <div class="flower-palette">
-            <div class="flower-item" data-flower="1"></div>
-            <div class="flower-item" data-flower="2"></div>
-            <div class="flower-item" data-flower="3"></div>
-            <div class="flower-item" data-flower="4"></div>
-            <div class="flower-item" data-flower="5"></div>
-            <div class="flower-item" data-flower="6"></div>
-            <div class="flower-item" data-flower="7"></div>
-            <div class="flower-item" data-flower="8"></div>
-            
-          </div>
-        </section>
-      </aside>
-
-      
-      <div class="canvas-area">
-        <div class="wreath-base">
-          <span class="placeholder-text">Место для фото основы</span>
+    <section id="catalog" class="catalog container">
+      <h2 class="section-title">Готовые венки</h2>
+      <div class="grid">
+        <!-- Карточка 1 -->
+        <div class="card">
+          <div class="card-img" style="background:#e0e0e0;"></div>
+          <h3>Классический круг</h3>
+          <p class="price">2 400 ₽</p>
+          <button class="btn btn-sm">Заказать</button>
         </div>
-        <div class="flowers-layer"></div>
+        <!-- Карточка 2 -->
+        <div class="card">
+          <div class="card-img" style="background:#d0d0d0;"></div>
+          <h3>Овальный «Память»</h3>
+          <p class="price">3 100 ₽</p>
+          <button class="btn btn-sm">Заказать</button>
+        </div>
+        <!-- Карточка 3 -->
+        <div class="card">
+          <div class="card-img" style="background:#c0c0c0;"></div>
+          <h3>Корзина «Уважение»</h3>
+          <p class="price">4 500 ₽</p>
+          <button class="btn btn-sm">Заказать</button>
+        </div>
+        <!-- Карточка 4 -->
+        <div class="card">
+          <div class="card-img" style="background:#b0b0b0;"></div>
+          <h3>Венок «Сердце»</h3>
+          <p class="price">3 800 ₽</p>
+          <button class="btn btn-sm">Заказать</button>
+        </div>
       </div>
-    </div>
+    </section>
 
-    
-    <div class="summary">
-      <div class="summary-info">
-        <span>Итого:</span>
-        <strong id="total-price">0 ₽</strong>
+    <section id="delivery" class="info container">
+      <h2 class="section-title">Почему выбирают нас</h2>
+      <div class="features">
+        <div class="feature">
+          <h3>⏱Быстро</h3>
+          <p>Сборка венка занимает не более 90 минут. Срочные заказы — приоритет.</p>
+        </div>
+        <div class="feature">
+          <h3>Качественно</h3>
+          <p>Используем свежий искусственный флор и плотную ленту с печатью.</p>
+        </div>
+        <div class="feature">
+          <h3>Доставка 24/7</h3>
+          <p>Привезём на кладбище, в морг или по указанному адресу в любое время.</p>
+        </div>
       </div>
-      <button class="btn-order">Оформить заказ</button>
-    </div>
+    </section>
   </main>
 
-  <footer class="footer">
-    <div class="container">© 2026 ВенокПро. Учебный проект.</div>
+  <footer id="contacts" class="footer">
+    <div class="container footer__inner">
+      <div>
+        <strong>ВенокПро</strong>
+        <p>Учебный проект. Все цены указаны для демонстрации.</p>
+      </div>
+      <div>
+
+      </div>
+    </div>
   </footer>
 
-  <script src="app.js"></script>
 </body>
 </html>
