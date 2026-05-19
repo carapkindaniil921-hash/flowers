@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Конструктор ритуальных венков</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="container header__inner">
+      <div class="logo">🌸 ВенокПро</div>
+      <nav class="nav">
+        <a href="#" class="nav-link">Главная</a>
+        <a href="#" class="nav-link active">Конструктор</a>
+        <a href="#" class="nav-link">Контакты</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1 class="title">Собери свой венок</h1>
+
+    <div class="constructor">
+      <!-- Левая панель: настройки -->
+      <aside class="sidebar">
+        <section class="panel">
+          <h3>1. Основа</h3>
+          <div class="wreath-options">
+            <button class="option-btn active">Круг</button>
+            <button class="option-btn">Овал</button>
+            <button class="option-btn">Сердце</button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h3>2. Цветы</h3>
+          <p class="hint">Выбери головку и кликни на поле венка</p>
+          
+          
+          <div class="flower-palette">
+            <div class="flower-item" data-flower="1"></div>
+            <div class="flower-item" data-flower="2"></div>
+            <div class="flower-item" data-flower="3"></div>
+            <div class="flower-item" data-flower="4"></div>
+            <div class="flower-item" data-flower="5"></div>
+            <div class="flower-item" data-flower="6"></div>
+            <div class="flower-item" data-flower="7"></div>
+            <div class="flower-item" data-flower="8"></div>
+            
+          </div>
+        </section>
+      </aside>
+
+      
+      <div class="canvas-area">
+        <div class="wreath-base">
+          <span class="placeholder-text">Место для фото основы</span>
+        </div>
+        <div class="flowers-layer"></div>
+      </div>
+    </div>
+
+    
+    <div class="summary">
+      <div class="summary-info">
+        <span>Итого:</span>
+        <strong id="total-price">0 ₽</strong>
+      </div>
+      <button class="btn-order">Оформить заказ</button>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">© 2026 ВенокПро. Учебный проект.</div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
