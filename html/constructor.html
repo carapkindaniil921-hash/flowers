@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Конструктор венков - FlowerArt</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="header" id="header-container">
+    </header>
+
+    <main class="container">
+        <h1>Конструктор венков</h1>
+        <p class="subtitle">Соберите свой уникальный венок из искусственных цветов</p>
+
+        <div class="constructor-layout">
+            
+            <aside class="constructor-sidebar">
+                <div class="sidebar-section">
+                    <h3>Выберите основу</h3>
+                    <div class="bases-grid">
+                        <div class="base-option active" data-base="small" data-price="500">
+                            <img src="images/base-small.jpg" alt="Маленькая основа">
+                            <span>Маленькая (20 см)</span>
+                            <span class="base-price">500 ₽</span>
+                        </div>
+                        <div class="base-option" data-base="medium" data-price="800">
+                            <img src="images/base-medium.jpg" alt="Средняя основа">
+                            <span>Средняя (30 см)</span>
+                            <span class="base-price">800 ₽</span>
+                        </div>
+                        <div class="base-option" data-base="large" data-price="1200">
+                            <img src="images/base-large.jpg" alt="Большая основа">
+                            <span>Большая (40 см)</span>
+                            <span class="base-price">1 200 ₽</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3>Добавьте цветы</h3>
+                    <div class="flowers-list" id="flowers-list">
+                        
+                        <div class="flower-item" data-flower-id="1" data-flower-name="Роза красная" data-price="150">
+                            <img src="images/flower-rose-red.jpg" alt="Роза">
+                            <div class="flower-info">
+                                <span class="flower-name">Роза красная</span>
+                                <span class="flower-price">150 ₽</span>
+                            </div>
+                            <button class="btn-add-flower" data-id="1">+</button>
+                        </div>
+
+                        <div class="flower-item" data-flower-id="2" data-flower-name="Пион розовый" data-price="200">
+                            <img src="images/flower-peony-pink.jpg" alt="Пион">
+                            <div class="flower-info">
+                                <span class="flower-name">Пион розовый</span>
+                                <span class="flower-price">200 ₽</span>
+                            </div>
+                            <button class="btn-add-flower" data-id="2">+</button>
+                        </div>
+
+                        <div class="flower-item" data-flower-id="3" data-flower-name="Подсолнух" data-price="180">
+                            <img src="images/flower-sunflower.jpg" alt="Подсолнух">
+                            <div class="flower-info">
+                                <span class="flower-name">Подсолнух</span>
+                                <span class="flower-price">180 ₽</span>
+                            </div>
+                            <button class="btn-add-flower" data-id="3">+</button>
+                        </div>
+
+                        <div class="flower-item" data-flower-id="4" data-flower-name="Лилия белая" data-price="220">
+                            <img src="images/flower-lily-white.jpg" alt="Лилия">
+                            <div class="flower-info">
+                                <span class="flower-name">Лилия белая</span>
+                                <span class="flower-price">220 ₽</span>
+                            </div>
+                            <button class="btn-add-flower" data-id="4">+</button>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            
+            <div class="constructor-preview">
+                <div class="wreath-canvas" id="wreath-canvas">
+                    <div class="wreath-base" id="wreath-base">
+                     
+                    </div>
+                    <div class="wreath-flowers" id="wreath-flowers">
+                       
+                    </div>
+                </div>
+
+                <div class="constructor-controls">
+                    <button class="btn btn-secondary" id="clear-wreath">Очистить</button>
+                    <button class="btn btn-secondary" id="save-wreath">Сохранить</button>
+                </div>
+            </div>
+
+            
+            <aside class="constructor-summary">
+                <h3>Ваш венок</h3>
+                <div class="summary-details">
+                    <div class="summary-row">
+                        <span>Основа:</span>
+                        <span id="summary-base">Не выбрана</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Цветы:</span>
+                        <span id="summary-flowers-count">0 шт</span>
+                    </div>
+                    <div class="flowers-in-wreath" id="flowers-in-wreath">
+                   
+                    </div>
+                    <div class="summary-total">
+                        <span>Итого:</span>
+                        <span id="total-price" class="total-price">0 ₽</span>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-large" id="add-to-cart" disabled>
+                    Добавить в корзину
+                </button>
+            </aside>
+        </div>
+    </main>
+
+    <footer class="footer" id="footer-container">
+    </footer>
+
+    <script type="module" src="../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог - FlowerArt</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="header" id="header-container">
+        
+    </header>
+
+    <main class="container">
+        <h1>Каталог цветов</h1>
+        
+        <div class="catalog-layout">
+            <aside class="filters">
+                <h3>Фильтры</h3>
+                
+                <div class="filter-group">
+                    <h4>Категория</h4>
+                    <label><input type="checkbox" name="category" value="roses"> Розы</label>
+                    <label><input type="checkbox" name="category" value="peonies"> Пионы</label>
+                    <label><input type="checkbox" name="category" value="lilies"> Лилии</label>
+                    <label><input type="checkbox" name="category" value="sunflowers"> Подсолнухи</label>
+                    <label><input type="checkbox" name="category" value="wreaths"> Готовые венки</label>
+                </div>
+
+                <div class="filter-group">
+                    <h4>Цена</h4>
+                    <input type="range" min="0" max="10000" class="price-range">
+                    <div class="price-values">
+                        <span>0 ₽</span>
+                        <span>10000 ₽</span>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h4>Цвет</h4>
+                    <div class="color-filters">
+                        <span class="color-dot" style="background: #ff6b6b" data-color="red"></span>
+                        <span class="color-dot" style="background: #ffd93d" data-color="yellow"></span>
+                        <span class="color-dot" style="background: #6bcb77" data-color="green"></span>
+                        <span class="color-dot" style="background: #4d96ff" data-color="blue"></span>
+                        <span class="color-dot" style="background: #ff8fd9" data-color="pink"></span>
+                        <span class="color-dot" style="background: #ffffff" data-color="white"></span>
+                    </div>
+                </div>
+            </aside>
+
+            <div class="products-section">
+                <div class="products-header">
+                    <p>Найдено товаров: <span id="products-count">0</span></p>
+                    <select class="sort-select">
+                        <option value="popular">По популярности</option>
+                        <option value="price-asc">Сначала дешевые</option>
+                        <option value="price-desc">Сначала дорогие</option>
+                        <option value="name">По названию</option>
+                    </select>
+                </div>
+
+                <div class="products-grid" id="products-grid">
+                    
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer" id="footer-container">
+    </footer>
+
+</body>
+<script type="module" src="../js/main.js"></script>
+</html>

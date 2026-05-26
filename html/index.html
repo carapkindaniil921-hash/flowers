@@ -1,98 +1,49 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ВенокПро | Ритуальные венки</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowerArt - Магазин искусственных цветов</title>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
+    <header class="header" id="header-container">
+    </header>
 
-  <header class="header">
-    <div class="container header__inner">
-      <div class="logo">🌸 ВенокПро</div>
-      <nav class="nav">
-        <a href="#catalog">Каталог</a>
-        <a href="#delivery">Доставка</a>
-        <a href="#contacts">Контакты</a>
-      </nav>
-      <a href="tel:+79990000000" class="phone">+7 (999) 000-00-00</a>
-    </div>
-  </header>
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Искусственные цветы премиум качества</h1>
+                <p>Создайте уют и красоту с нашими реалистичными цветами</p>
+                <a href="catalog.html" class="btn btn-primary">Смотреть каталог</a>
+            </div>
+        </section>
 
-  <main>
-    <section class="hero">
-      <div class="container hero__content">
-        <h1>Ритуальные венки с доставкой</h1>
-        <p>Изготовление за 1,5 часа. Натуральные материалы. Гравировка ленты в подарок.</p>
-        <a href="#catalog" class="btn">Посмотреть каталог</a>
-      </div>
-    </section>
+        <section class="features container">
+            <div class="feature-card">
+                <h3>Реалистичность</h3>
+                <p>Наши цветы невозможно отличить от настоящих</p>
+            </div>
+            <div class="feature-card">
+                <h3>Быстрая доставка</h3>
+                <p>Доставляем по всей стране за 3-5 дней</p>
+            </div>
+            <div class="feature-card">
+                <h3>Гарантия качества</h3>
+                <p>Все товары проходят проверку качества</p>
+            </div>
+        </section>
 
-    <section id="catalog" class="catalog container">
-      <h2 class="section-title">Готовые венки</h2>
-      <div class="grid">
-        <!-- Карточка 1 -->
-        <div class="card">
-          <div class="card-img" style="background:#e0e0e0;"></div>
-          <h3>Классический круг</h3>
-          <p class="price">2 400 ₽</p>
-          <button class="btn btn-sm">Заказать</button>
-        </div>
-        <!-- Карточка 2 -->
-        <div class="card">
-          <div class="card-img" style="background:#d0d0d0;"></div>
-          <h3>Овальный «Память»</h3>
-          <p class="price">3 100 ₽</p>
-          <button class="btn btn-sm">Заказать</button>
-        </div>
-        <!-- Карточка 3 -->
-        <div class="card">
-          <div class="card-img" style="background:#c0c0c0;"></div>
-          <h3>Корзина «Уважение»</h3>
-          <p class="price">4 500 ₽</p>
-          <button class="btn btn-sm">Заказать</button>
-        </div>
-        <!-- Карточка 4 -->
-        <div class="card">
-          <div class="card-img" style="background:#b0b0b0;"></div>
-          <h3>Венок «Сердце»</h3>
-          <p class="price">3 800 ₽</p>
-          <button class="btn btn-sm">Заказать</button>
-        </div>
-      </div>
-    </section>
+        <section class="popular-products container">
+            <h2>Популярные товары</h2>
+            <div class="products-grid">
+                <!-- Здесь будут карточки товаров -->
+            </div>
+        </section>
+    </main>
 
-    <section id="delivery" class="info container">
-      <h2 class="section-title">Почему выбирают нас</h2>
-      <div class="features">
-        <div class="feature">
-          <h3>⏱Быстро</h3>
-          <p>Сборка венка занимает не более 90 минут. Срочные заказы — приоритет.</p>
-        </div>
-        <div class="feature">
-          <h3>Качественно</h3>
-          <p>Используем свежий искусственный флор и плотную ленту с печатью.</p>
-        </div>
-        <div class="feature">
-          <h3>Доставка 24/7</h3>
-          <p>Привезём на кладбище, в морг или по указанному адресу в любое время.</p>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer id="contacts" class="footer">
-    <div class="container footer__inner">
-      <div>
-        <strong>ВенокПро</strong>
-        <p>Учебный проект. Все цены указаны для демонстрации.</p>
-      </div>
-      <div>
-
-      </div>
-    </div>
-  </footer>
-
+    <footer class="footer" id="footer-container">
+    </footer>
+    <script type="module" src="../js/main.js"></script>
 </body>
 </html>

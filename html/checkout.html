@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оформление заказа - FlowerArt</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="header" id="header-container">
+    </header>
+
+    <main class="container">
+        <h1>Оформление заказа</h1>
+
+        <div class="checkout-layout">
+            <div class="checkout-form">
+                <section class="checkout-section">
+                    <h2>Контактная информация</h2>
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Телефон *</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                </section>
+
+                <section class="checkout-section">
+                    <h2>Доставка</h2>
+                    <div class="form-group">
+                        <label for="city">Город *</label>
+                        <input type="text" id="city" name="city" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Адрес *</label>
+                        <textarea id="address" name="address" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="postal-code">Индекс</label>
+                        <input type="text" id="postal-code" name="postal-code">
+                    </div>
+                </section>
+
+                <section class="checkout-section">
+                    <h2>Получатель</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="first-name">Имя *</label>
+                            <input type="text" id="first-name" name="first-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="last-name">Фамилия *</label>
+                            <input type="text" id="last-name" name="last-name" required>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="checkout-section">
+                    <h2>Способ оплаты</h2>
+                    <div class="payment-methods">
+                        <label class="payment-method">
+                            <input type="radio" name="payment" value="card" checked>
+                            <span>Банковская карта</span>
+                        </label>
+                        <label class="payment-method">
+                            <input type="radio" name="payment" value="cash">
+                            <span>Наличные при получении</span>
+                        </label>
+                        <label class="payment-method">
+                            <input type="radio" name="payment" value="online">
+                            <span>Онлайн оплата</span>
+                        </label>
+                    </div>
+                </section>
+            </div>
+
+            <aside class="order-summary">
+                <h2>Ваш заказ</h2>
+                <div class="order-items" id="order-items">
+                    <!-- Товары будут добавлены через JS -->
+                </div>
+                <div class="order-totals">
+                    <div class="total-row">
+                        <span>Подытог:</span>
+                        <span id="subtotal">0 ₽</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Доставка:</span>
+                        <span id="shipping">0 ₽</span>
+                    </div>
+                    <div class="total-row total">
+                        <span>Итого:</span>
+                        <span id="total">0 ₽</span>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-large btn-place-order">
+                    Подтвердить заказ
+                </button>
+            </aside>
+        </div>
+    </main>
+
+    <footer class="footer" id="footer-container">
+    </footer>
+
+    <script type="module" src="../js/main.js"></script>
+</body>
+</html>
