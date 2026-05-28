@@ -21,6 +21,14 @@ export class Header {
             return `<li><a href="${href}" ${isActive}>${title}</a></li>`;
         }).join('');
 
+        const user = window.appState?.get('user');
+        const userHTML = user
+            ? `<span class="header-username">${user.role === 'admin' ? '👑 ' : ''}${user.name}</span>
+               <button class="btn-logout" id="btn-logout">Выйти</button>`
+            : `<a href="login.html" class="login-link">
+                   <img src="../../images/icons/Login.png" alt="Login" class="login-icon">
+               </a>`;
+
         return `
             <nav class="nav container">
                 <a href="index.html" class="logo">🌸 FlowerArt</a>
@@ -31,9 +39,7 @@ export class Header {
                     <div class="cart-icon" id="cart-icon">
                         🛒 <span class="cart-count" id="cart-count">${this.cartCount}</span>
                     </div>
-                    <a href="login.html" class="login-link">
-                        <img src="../../images/icons/Login.png" alt="Login" class="login-icon">
-                    </a>
+                    ${userHTML}
                 </div>
             </nav>
         `;
@@ -42,10 +48,23 @@ export class Header {
     init() {
         if (this.container) {
             this.container.innerHTML = this.render();
-            console.log('Header загружен');
             this.updateCartCount();
             this.initMobileMenu();
+            this.bindLogout();
         }
+    }
+
+    bindLogout() {
+        const btn = this.container?.querySelector('#btn-logout');
+        if (!btn) return;
+
+        btn.addEventListener('click', () => {
+            localStorage.removeItem('currentUser');
+            if (window.appState) {
+                window.appState.set('user', null);
+            }
+            window.location.href = 'login.html';
+        });
     }
 
     updateCartCount() {

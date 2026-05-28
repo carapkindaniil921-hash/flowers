@@ -5,10 +5,13 @@ import { State } from './core/State.js';
 
 
 document.addEventListener('DOMContentLoaded', () => {
-   
+
+    const savedUser = localStorage.getItem('currentUser');
+    const restoredUser = savedUser ? JSON.parse(savedUser) : null;
+
     window.appState = new State({
         cart: [],
-        user: null,
+        user: restoredUser,
         currentWreath: null,
         filters: {
             category: [],
