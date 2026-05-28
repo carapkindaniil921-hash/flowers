@@ -45,6 +45,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const page = new module.ContactsPage();
             page.init();
         });
+    } else if (path.includes('login.html')) {
+        import('./pages/LoginPage.js').then(module => {
+            const page = new module.LoginPage();
+            page.init();
+        });
     } else {
         
         import('./pages/HomePage.js').then(module => {

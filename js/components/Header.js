@@ -27,8 +27,13 @@ export class Header {
                 <ul class="nav-menu">
                     ${navItemsHTML}
                 </ul>
-                <div class="cart-icon" id="cart-icon">
-                    🛒 <span class="cart-count" id="cart-count">${this.cartCount}</span>
+                <div class="header-actions" style="display: flex; align-items: center; gap: 12px;">
+                    <div class="cart-icon" id="cart-icon">
+                        🛒 <span class="cart-count" id="cart-count">${this.cartCount}</span>
+                    </div>
+                    <a href="login.html" class="login-link">
+                        <img src="../../images/icons/Login.png" alt="Login" class="login-icon">
+                    </a>
                 </div>
             </nav>
         `;
