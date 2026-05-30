@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowerArt - Вход / Регистрация</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="header" id="header-container"></header>
+
+    <main class="login-page">
+        <div class="login-card">
+
+            <div class="login-tabs">
+                <button class="login-tab active" data-tab="signin">Вход</button>
+                <button class="login-tab" data-tab="signup">Регистрация</button>
+            </div>
+
+            <!-- Вход -->
+            <form class="login-form" id="tab-signin">
+                <input class="login-input" type="email" placeholder="Введите Email">
+                <div class="login-input-row">
+                    <input class="login-input" type="password" placeholder="Введите пароль">
+                    <a href="#" class="login-forgot">напомнить</a>
+                </div>
+                <label class="login-remember">
+                    <input type="checkbox" checked>
+                    Запомнить меня
+                </label>
+                <button type="submit" class="btn btn-primary btn-large">Войти</button>
+            </form>
+
+            <!-- Регистрация -->
+            <form class="login-form" id="tab-signup" style="display: none;">
+                <input class="login-input" type="text" placeholder="Введите Имя">
+                <input class="login-input" type="email" placeholder="Введите Email">
+                <input class="login-input" type="password" placeholder="Введите пароль">
+                <input class="login-input" type="password" placeholder="Повторите пароль">
+                <button type="submit" class="btn btn-primary btn-large">Регистрация</button>
+            </form>
+
+        </div>
+    </main>
+
+    <footer class="footer" id="footer-container"></footer>
+
+    <script type="module" src="../js/main.js"></script>
+
+</body>
+</html>
