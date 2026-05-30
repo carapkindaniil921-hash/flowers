@@ -1,4 +1,4 @@
-// pages/CatalogPage.js
+    // pages/CatalogPage.js
 
 export class CatalogPage {
     constructor() {
@@ -21,15 +21,15 @@ export class CatalogPage {
 
     async loadProducts() {
         try {
-            const { flowers } = await import('../data/flowers.js');
-            this.products = flowers;
+            const { ProductService } = await import('../services/ProductService.js');
+            this.products = await ProductService.getAll();
             this.renderProducts(this.products);
         } catch (error) {
             console.error('Error loading products:', error);
         }
     }
 
-  
+
     getCategoryName(cat) {
         const map = {
             'rose': 'Роза',
@@ -109,12 +109,12 @@ export class CatalogPage {
 
             const defaultVariation = product.variations[0];
 
-          
+
             const colorsHtml = product.variations.map((variation, varIndex) => `
-                <div class="color-dot" 
-                     style="background: ${variation.hex}; ${variation.color === 'white' ? 'border: 1px solid #ccc;' : ''}" 
+                <div class="color-dot"
+                     style="background: ${variation.hex}; ${variation.color === 'white' ? 'border: 1px solid #ccc;' : ''}"
                      title="${variation.color}"
-                     data-product-index="${productIndex}" 
+                     data-product-index="${productIndex}"
                      data-variation-index="${varIndex}">
                 </div>
             `).join('');
@@ -126,32 +126,32 @@ export class CatalogPage {
             return `
                 <div class="product-card" data-id="${product.id}" data-product-index="${productIndex}">
                     <div class="product-image">
-                        <img src="${defaultVariation.image}" alt="${product.name}" 
+                        <img src="${defaultVariation.image}" alt="${product.name}"
                              class="product-img"
                              onerror="this.onerror=null; this.src='images/placeholder.jpg'">
                         ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
                     </div>
-                    
+
                     <div class="product-info">
                         <h3 class="product-title">${product.name}</h3>
-                        
+
                         <div class="product-specs">
                             <span>Материал: ${material}</span>
                             <span>Тип: ${categoryRu}</span>
                             <span>Размер: ${size}</span>
                         </div>
-                        
+
                         <div class="product-colors">
                             ${colorsHtml}
                         </div>
                     </div>
-                    
+
                     <div class="product-actions">
                         <div class="product-price">
                             <span class="price-value">${defaultVariation.price}</span> <span>руб</span>
                         </div>
                         <div class="price-label">Цена за единицу</div>
-                        <button class="btn-add-to-cart" 
+                        <button class="btn-add-to-cart"
                                 data-product-id="${product.id}"
                                 data-product-index="${productIndex}"
                                 data-variation-index="0">
@@ -162,7 +162,7 @@ export class CatalogPage {
             `;
         }).join('');
 
-    
+
         if (this.elements.productsCount) {
             this.elements.productsCount.textContent = products.length;
         }
@@ -176,20 +176,20 @@ export class CatalogPage {
             dot.addEventListener('click', (e) => {
                 const productIndex = e.target.dataset.productIndex;
                 const variationIndex = e.target.dataset.variationIndex;
-                
+
                 const product = this.products[productIndex];
                 const selectedVariation = product.variations[variationIndex];
                 const card = e.target.closest('.product-card');
 
-             
+
                 const img = card.querySelector('.product-img');
                 if (img) img.src = selectedVariation.image;
 
-                
+
                 const priceEl = card.querySelector('.price-value');
                 if (priceEl) priceEl.textContent = selectedVariation.price;
 
-                
+
                 const btn = card.querySelector('.btn-add-to-cart');
                 if (btn) {
                     btn.dataset.variationIndex = variationIndex;
@@ -200,20 +200,20 @@ export class CatalogPage {
             });
         });
 
-        
+
         const buttons = document.querySelectorAll('.btn-add-to-cart');
         buttons.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const productIndex = e.target.dataset.productIndex;
                 const variationIndex = e.target.dataset.variationIndex;
-                
+
                 const product = this.products[productIndex];
                 const selectedVariation = product.variations[variationIndex];
 
                 const cart = window.appState?.get('cart') || [];
-                
-                
-                const existingItem = cart.find(item => 
+
+
+                const existingItem = cart.find(item =>
                     item.originalId === product.id && item.color === selectedVariation.color
                 );
 
@@ -227,6 +227,7 @@ export class CatalogPage {
                         price: selectedVariation.price,
                         image: selectedVariation.image,
                         color: selectedVariation.color,
+                        colorHex: selectedVariation.hex,
                         quantity: 1
                     });
                 }
@@ -235,16 +236,30 @@ export class CatalogPage {
                     window.appState.set('cart', cart);
                 }
 
-                
-                const headerEvent = new CustomEvent('cart-updated', { detail: { cart } });
-                document.dispatchEvent(headerEvent);
-
-                alert(`${product.name} (${selectedVariation.color}) добавлен в корзину!`);
+                document.dispatchEvent(new CustomEvent('cart-updated', { detail: { cart } }));
+                this._showToast(`${product.name} добавлен в корзину`);
             });
         });
     }
 
+    _showToast(message) {
+        const existing = document.querySelector('.cart-toast');
+        if (existing) existing.remove();
+
+        const toast = document.createElement('div');
+        toast.className = 'cart-toast';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        requestAnimationFrame(() => toast.classList.add('cart-toast--visible'));
+
+        setTimeout(() => {
+            toast.classList.remove('cart-toast--visible');
+            setTimeout(() => toast.remove(), 300);
+        }, 2500);
+    }
+
     destroy() {
-    
+
     }
 }

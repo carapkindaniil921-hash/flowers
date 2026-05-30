@@ -2,6 +2,7 @@
 export class HomePage {
     constructor() {
         this.elements = {};
+        this.products = [];
     }
 
     init() {
@@ -12,7 +13,7 @@ export class HomePage {
 
     cacheElements() {
         this.elements = {
-            popularProducts: document.getElementById('popular-products'),
+            popularProducts: document.querySelector('#popular-products, .products-grid'),
             hero: document.querySelector('.hero')
         };
     }
@@ -21,13 +22,9 @@ export class HomePage {
         if (!this.elements.popularProducts) return;
 
         try {
-            
-            const { flowers } = await import('../data/flowers.js');
-            
-            
-            const popular = flowers.slice(0, 4);
-            
-            this.renderPopularProducts(popular);
+            const { ProductService } = await import('../services/ProductService.js');
+            this.products = await ProductService.getAll();
+            this.renderPopularProducts(this.products.slice(0, 4));
         } catch (error) {
             console.error('Ошибка загрузки товаров:', error);
             this.elements.popularProducts.innerHTML = '<p>Ошибка загрузки товаров</p>';
@@ -37,24 +34,27 @@ export class HomePage {
     renderPopularProducts(products) {
         if (!this.elements.popularProducts) return;
 
-        this.elements.popularProducts.innerHTML = products.map(product => `
-            <div class="product-card" data-id="${product.id}">
-                <div class="product-image">
-                    <img src="${product.image || 'images/placeholder.jpg'}" alt="${product.name}">
-                    ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title">${product.name}</h3>
-                    <p class="product-description">${product.description}</p>
-                    <div class="product-price">
-                        <span class="current-price">${product.price.toLocaleString()} ₽</span>
+        this.elements.popularProducts.innerHTML = products.map(product => {
+            const variation = product.variations[0];
+            return `
+                <div class="product-card" data-id="${product.id}">
+                    <div class="product-image">
+                        <img src="${variation.image || '../images/placeholder.jpg'}" alt="${product.name}"
+                             onerror="this.onerror=null; this.src='../images/placeholder.jpg'">
+                        ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
                     </div>
-                    <button class="btn-add-to-cart" data-id="${product.id}">В корзину</button>
+                    <div class="product-info">
+                        <h3 class="product-title">${product.name}</h3>
+                        <p class="product-description">${product.description || ''}</p>
+                        <div class="product-price">
+                            <span class="current-price">${variation.price.toLocaleString('ru-RU')} ₽</span>
+                        </div>
+                        <button class="btn-add-to-cart" data-id="${product.id}">В корзину</button>
+                    </div>
                 </div>
-            </div>
-        `).join('');
+            `;
+        }).join('');
 
-    
         this.elements.popularProducts.querySelectorAll('.btn-add-to-cart').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const id = parseInt(e.target.dataset.id);
@@ -72,22 +72,32 @@ export class HomePage {
     }
 
     addToCart(productId) {
+        const product = this.products.find(p => p.id === productId);
+        if (!product) return;
+
+        const variation = product.variations[0];
         const cart = window.appState.get('cart');
-        const existingItem = cart.find(item => item.id === productId);
+        const existingItem = cart.find(
+            item => item.originalId === productId && item.color === variation.color
+        );
 
         if (existingItem) {
             existingItem.quantity = (existingItem.quantity || 1) + 1;
         } else {
-            cart.push({ id: productId, quantity: 1 });
+            cart.push({
+                id: Date.now(),
+                originalId: productId,
+                name: `${product.name} (${variation.color})`,
+                price: variation.price,
+                image: variation.image,
+                color: variation.color,
+                colorHex: variation.hex,
+                quantity: 1
+            });
         }
 
         window.appState.set('cart', cart);
-        
-       
-        const header = new Header();
-        header.updateCartCount();
-
-        
+        document.dispatchEvent(new CustomEvent('cart-updated', { detail: { cart } }));
         this.showNotification('Товар добавлен в корзину');
     }
 
