@@ -17,12 +17,9 @@ export class Footer {
             <div class="container">
                 <div class="footer-content">
                     <div class="footer-contacts">
-                        <p>📞 ${FOOTER_INFO.phone}</p>
-                        <p>✉️ ${FOOTER_INFO.email}</p>
-                        <p>📍 ${FOOTER_INFO.address}</p>
-                    </div>
-                    <div class="footer-social">
-                        ${socialLinksHTML}
+                        <p>${FOOTER_INFO.phone}</p>
+                        <p>${FOOTER_INFO.email}</p>
+                        <p>${FOOTER_INFO.address}</p>
                     </div>
                     <div class="footer-copyright">
                         <p>&copy; ${new Date().getFullYear()} FlowerArt. Все права защищены.</p>
@@ -40,7 +37,7 @@ export class Footer {
     }
 
     destroy() {
-        // Очистка
+  
     }
 }
 

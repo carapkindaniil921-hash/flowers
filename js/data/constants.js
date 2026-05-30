@@ -6,11 +6,11 @@ export const NAVIGATION_LINKS = [
 ];
 
 export const FOOTER_INFO = {
-    phone: '+7 (999) 123-45-67',
+    phone: '+7 999 543 56 43',
     email: 'info@flowerart.ru',
-    address: 'г. Москва, ул. Цветочная, 15'
+    address: 'г. Тюмень, ул. Республики, 9'
 };
 
 export const SOCIAL_LINKS = [
-    { url: 'https://vk.com', icon: '📘' }, 
+
 ];

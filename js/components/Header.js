@@ -6,7 +6,7 @@ export class Header {
         this.container = document.querySelector(containerSelector);
         this.cartCount = 0;
         
-        // Определяем текущую страницу
+        
         const pathParts = window.location.pathname.split('/');
         this.currentPage = pathParts.pop() || 'index.html';
         
@@ -32,12 +32,13 @@ export class Header {
         return `
             <nav class="nav container">
                 <a href="index.html" class="logo">🌸 FlowerArt</a>
-                <ul class="nav-menu">
+                <ul class="nav-menu">   
                     ${navItemsHTML}
                 </ul>
                 <div class="header-actions" style="display: flex; align-items: center; gap: 12px;">
                     <div class="cart-icon" id="cart-icon">
-                        🛒 <span class="cart-count" id="cart-count">${this.cartCount}</span>
+                         <img src="../../images/icons/basket.png" alt="Cart" class="cart-icon-img">
+                         <span class="cart-count" id="cart-count">${this.cartCount}</span>
                     </div>
                     ${userHTML}
                 </div>
@@ -78,7 +79,6 @@ export class Header {
     }
 
     initMobileMenu() {
-        // Добавляем кнопку мобильного меню если нужно
         const nav = this.container?.querySelector('.nav');
         if (nav && !document.querySelector('.menu-toggle')) {
             const toggle = document.createElement('button');
@@ -93,7 +93,7 @@ export class Header {
     }
 
     destroy() {
-        // Очистка
+   
     }
 }
 
