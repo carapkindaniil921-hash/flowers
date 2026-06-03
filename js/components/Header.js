@@ -22,8 +22,12 @@ export class Header {
         }).join('');
 
         const user = window.appState?.get('user');
+        const adminLink = user?.role === 'admin'
+            ? `<a href="admin.html" class="admin-header-link" title="Панель управления">⚙ Панель</a>`
+            : '';
         const userHTML = user
-            ? `<span class="header-username">${user.role === 'admin' ? '👑 ' : ''}${user.name}</span>
+            ? `${adminLink}
+               <span class="header-username">${user.role === 'admin' ? '👑 ' : ''}${user.name}</span>
                <button class="btn-logout" id="btn-logout">Выйти</button>`
             : `<a href="login.html" class="login-link">
                    <img src="../../images/icons/Login.png" alt="Login" class="login-icon">
