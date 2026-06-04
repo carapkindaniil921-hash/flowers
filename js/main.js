@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     shoppingCart.init();
     window.appCart = shoppingCart;
 
-    // Заполняем демо-заказами при первом запуске (для аналитики и админки)
+    // Заполняем демо-заказами при первом запуске (для админки)
     OrderService.seedIfEmpty();
 
     // Промо-баннер (управляется из настроек админки)
@@ -63,11 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (path.includes('admin.html')) {
         import('./pages/AdminPage.js').then(module => {
             const page = new module.AdminPage();
-            page.init();
-        });
-    } else if (path.includes('analitick.html')) {
-        import('./pages/AnalyticsPage.js').then(module => {
-            const page = new module.AnalyticsPage();
             page.init();
         });
     } else if (path.includes('catalog.html')) {
