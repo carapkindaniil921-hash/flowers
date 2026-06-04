@@ -2,7 +2,7 @@
 import { OrderService }  from '../services/OrderService.js';
 import { ProductService } from '../services/ProductService.js';
 
-// ─── Constants ───────────────────────────────────────────────────────────────
+// Константы
 
 const KANBAN_COLS = [
     { status: 'pending',    label: 'Новые',        color: '#f59e0b' },
@@ -26,7 +26,7 @@ const CATEGORIES = [
     { value: 'sunflowers',    label: 'Подсолнух' },
 ];
 
-// ─── AdminPage ───────────────────────────────────────────────────────────────
+//AdminPage класс
 
 export class AdminPage {
     constructor() {
@@ -40,7 +40,6 @@ export class AdminPage {
         this.editingProduct       = null;
     }
 
-    // ─── Lifecycle ───────────────────────────────────────────────────────────
 
     async init() {
         this._checkAuth();
@@ -57,7 +56,7 @@ export class AdminPage {
         if (!user || user.role !== 'admin') {
             document.getElementById('admin-main').innerHTML = `
                 <div class="admin-access-denied">
-                    <h2>🔒 Доступ запрещён</h2>
+                    <h2>Доступ запрещён</h2>
                     <p>Эта страница доступна только администраторам.</p>
                     <a href="login.html" class="btn btn-primary">Войти</a>
                 </div>`;
@@ -65,7 +64,7 @@ export class AdminPage {
         }
     }
 
-    // ─── Shell ───────────────────────────────────────────────────────────────
+    // Панель управления
 
     _render() {
         const main = document.getElementById('admin-main');
@@ -83,10 +82,10 @@ export class AdminPage {
                 </div>
 
                 <nav class="admin-tabs">
-                    <button class="admin-tab-btn active" data-tab="dashboard">📊 Дашборд</button>
-                    <button class="admin-tab-btn" data-tab="orders">📦 Заказы</button>
-                    <button class="admin-tab-btn" data-tab="catalog">🌸 Каталог</button>
-                    <button class="admin-tab-btn" data-tab="settings">⚙ Настройки</button>
+                    <button class="admin-tab-btn active" data-tab="dashboard">Дашборд</button>
+                    <button class="admin-tab-btn" data-tab="orders">Заказы</button>
+                    <button class="admin-tab-btn" data-tab="catalog">Каталог</button>
+                    <button class="admin-tab-btn" data-tab="settings">Настройки</button>
                 </nav>
 
                 <div class="admin-content">
@@ -125,7 +124,7 @@ export class AdminPage {
         pane.dataset.rendered = '1';
     }
 
-    // ─── DASHBOARD ───────────────────────────────────────────────────────────
+    // Дашборд
 
     _renderDashboard() {
         const orders = OrderService.getAll();
@@ -142,10 +141,10 @@ export class AdminPage {
         const pane = document.getElementById('pane-dashboard');
         pane.innerHTML = `
             <div class="metrics-grid">
-                ${this._metricCard('📦', 'Заказов сегодня',      todayCount,                             'amber')}
-                ${this._metricCard('💰', 'Выручка за 7 дней',    weekRevenue.toLocaleString('ru-RU') + ' ₽', 'green')}
-                ${this._metricCard('🌸', 'Товаров в каталоге',   this.products.length,                   'blue')}
-                ${this._metricCard('⏳', 'Ожидают обработки',    pendingCount,                           'red')}
+                ${this._metricCard('', 'Заказов сегодня',      todayCount,                             'amber')}
+                ${this._metricCard('', 'Выручка за 7 дней',    weekRevenue.toLocaleString('ru-RU') + ' ₽', 'green')}
+                ${this._metricCard('', 'Товаров в каталоге',   this.products.length,                   'blue')}
+                ${this._metricCard('', 'Ожидают обработки',    pendingCount,                           'red')}
             </div>
 
             <div class="dashboard-grid">
@@ -167,7 +166,7 @@ export class AdminPage {
                 </section>
 
                 <section class="assistant-section">
-                    <h3 class="section-title">🤖 Умный ассистент</h3>
+                    <h3 class="section-title">Умный ассистент</h3>
                     <div class="assistant-stub">
                         <p class="assistant-stub__hint">В разработке</p>
                     </div>
@@ -212,12 +211,12 @@ export class AdminPage {
 
         if (s.topProducts.length > 0) {
             const top = s.topProducts[0];
-            tips.push({ type: 'success', icon: '🌺',
+            tips.push({ type: 'success', icon: 'Продукт',
                 text: `"${top.name}" — лидер продаж (${top.count} шт.). Рекомендуем поставить на главную.` });
         }
         if (s.statusCounts.pending > 2) {
-            tips.push({ type: 'warning', icon: '⚠️',
-                text: `${s.statusCounts.pending} заказ(а) ожидают обработки. Откройте Kanban-доску.` });
+            tips.push({ type: 'warning', icon: 'Ошибка',
+                text: `${s.statusCounts.pending} заказ(а) ожидают обработки. Откройте Дашборд-доску.` });
         }
         const dayMap = {};
         s.byDay.forEach(d => {
@@ -226,12 +225,12 @@ export class AdminPage {
         });
         const peak = Object.entries(dayMap).sort((a,b) => b[1]-a[1])[0];
         if (peak) {
-            tips.push({ type: 'info', icon: '📅',
+            tips.push({ type: 'info', icon: 'День',
                 text: `${DAYS[peak[0]]} — пиковый день. Запускайте акции накануне.` });
         }
         if (s.topColors.length > 0) {
             const tc = s.topColors[0];
-            tips.push({ type: 'success', icon: '🎨',
+            tips.push({ type: 'success', icon: 'Цвет',
                 text: `Цвет "${LABELS[tc.color]||tc.color}" — самый продаваемый (${tc.count} шт.).` });
         }
         return tips.slice(0, 3);
@@ -248,7 +247,7 @@ export class AdminPage {
             </div>`;
     }
 
-    // ─── KANBAN ───────────────────────────────────────────────────────────────
+    // Kanban доска заказов
 
     _renderKanban() {
         const pane   = document.getElementById('pane-orders');
@@ -262,7 +261,7 @@ export class AdminPage {
                             <input type="checkbox" id="auto-toggle">
                             <span class="toggle-slider"></span>
                         </div>
-                        <span>🤖 Авто-прогресс (демо)</span>
+                        <span>Авто-прогресс (демо)</span>
                     </label>
                     <select class="admin-select" id="auto-speed">
                         <option value="5">5 сек</option>
@@ -405,7 +404,7 @@ export class AdminPage {
         this.autoProgressInterval = null;
     }
 
-    // ─── CATALOG ─────────────────────────────────────────────────────────────
+    // Каталог товаров
 
     _renderCatalogTab() {
         const pane = document.getElementById('pane-catalog');
@@ -470,7 +469,7 @@ export class AdminPage {
         });
     }
 
-    // ─── PRODUCT MODAL ───────────────────────────────────────────────────────
+    // Модальное окно добавления/редактирования товара
 
     _mountModal() {
         const overlay = document.createElement('div');
@@ -608,7 +607,7 @@ export class AdminPage {
         this._showToast(this.editingProduct ? 'Товар обновлён' : 'Товар добавлен');
     }
 
-    // ─── SETTINGS ────────────────────────────────────────────────────────────
+        // Настройки магазина
 
     _renderSettings() {
         const threshold = localStorage.getItem('flowerart_delivery_threshold') || '5000';
@@ -619,7 +618,7 @@ export class AdminPage {
             <div class="settings-grid">
 
                 <div class="settings-card">
-                    <h3>🚚 Доставка</h3>
+                    <h3>Доставка</h3>
                     <div class="settings-group">
                         <label>Бесплатная доставка от (₽)</label>
                         <div class="settings-inline">
@@ -631,7 +630,7 @@ export class AdminPage {
                 </div>
 
                 <div class="settings-card">
-                    <h3>📢 Промо-баннер</h3>
+                    <h3>Промо-баннер</h3>
                     <div class="settings-group">
                         <label class="toggle-label">
                             <div class="toggle-switch">
@@ -645,13 +644,13 @@ export class AdminPage {
                         <label>Текст баннера</label>
                         <input type="text" class="settings-input" id="promo-text"
                                value="${promo.text || ''}"
-                               placeholder="🌸 Скидка 20% на все розы до 10 июня!">
+                               placeholder="Скидка 20% на все розы до 10 июня!">
                     </div>
                     <button class="btn btn-primary" id="save-promo">Применить</button>
                 </div>
 
                 <div class="settings-card">
-                    <h3>🔄 Управление данными</h3>
+                    <h3>Управление данными</h3>
                     <div class="settings-group">
                         <p class="settings-hint">Сброс каталога к заводским настройкам (из flowers.js)</p>
                         <button class="btn btn-secondary" id="btn-reset-catalog">Сбросить каталог</button>
@@ -663,7 +662,7 @@ export class AdminPage {
                 </div>
 
                 <div class="settings-card settings-card--info">
-                    <h3>📋 О системе</h3>
+                    <h3>О системе</h3>
                     <div class="settings-info-row">
                         <span>Версия</span><span>FlowerArt v1.0</span>
                     </div>
@@ -718,7 +717,7 @@ export class AdminPage {
         });
     }
 
-    // ─── COMMAND PALETTE ─────────────────────────────────────────────────────
+    // Палитра команд
 
     _mountPalette() {
         const overlay = document.createElement('div');
@@ -727,7 +726,7 @@ export class AdminPage {
         overlay.innerHTML = `
             <div class="cmd-palette">
                 <div class="cmd-search-row">
-                    <span class="cmd-search-icon">🔍</span>
+                    <span class="cmd-search-icon">Поиск</span>
                     <input class="cmd-input" id="cmd-input" placeholder="Поиск команд, заказов, товаров..." autocomplete="off">
                     <span class="cmd-esc-hint">ESC</span>
                 </div>
@@ -783,24 +782,24 @@ export class AdminPage {
 
     _buildCommands() {
         const base = [
-            { label: '📊 Дашборд',             hint: 'Перейти на дашборд',        action: () => this._switchTab('dashboard') },
-            { label: '📦 Заказы / Kanban',      hint: 'Управление заказами',       action: () => this._switchTab('orders') },
-            { label: '🌸 Каталог товаров',      hint: 'Управление каталогом',      action: () => this._switchTab('catalog') },
-            { label: '⚙ Настройки магазина',   hint: 'Настройки',                 action: () => this._switchTab('settings') },
-            { label: '📈 Аналитика',            hint: 'Открыть страницу аналитики',action: () => { window.location.href = 'analitick.html'; } },
-            { label: '🏪 Главная страница',     hint: 'Открыть сайт',              action: () => { window.location.href = 'index.html'; } },
-            { label: '📋 Каталог магазина',     hint: 'Открыть каталог',           action: () => { window.location.href = 'catalog.html'; } },
+            { label: 'Дашборд',             hint: 'Перейти на дашборд',        action: () => this._switchTab('dashboard') },
+            { label: 'Заказы / Kanban',      hint: 'Управление заказами',       action: () => this._switchTab('orders') },
+            { label: 'Каталог товаров',      hint: 'Управление каталогом',      action: () => this._switchTab('catalog') },
+            { label: 'Настройки магазина',   hint: 'Настройки',                 action: () => this._switchTab('settings') },
+            { label: 'Аналитика',            hint: 'Открыть страницу аналитики',action: () => { window.location.href = 'analitick.html'; } },
+            { label: 'Главная страница',     hint: 'Открыть сайт',              action: () => { window.location.href = 'index.html'; } },
+            { label: 'Каталог магазина',     hint: 'Открыть каталог',           action: () => { window.location.href = 'catalog.html'; } },
             { label: '+ Добавить товар',        hint: 'Создать новый товар',        action: () => { this._switchTab('catalog'); setTimeout(() => this._openProductModal(), 200); } },
         ];
 
         const orderCmds = OrderService.getAll().slice(0, 15).map(o => ({
-            label: `🧾 ${o.id} — ${o['first-name'] || ''} ${o['last-name'] || ''}`,
+            label: `${o.id} — ${o['first-name'] || ''} ${o['last-name'] || ''}`,
             hint:  `${(o.total || 0).toLocaleString('ru-RU')} ₽ · ${this._statusLabel(o.status)}`,
             action: () => { this._switchTab('orders'); setTimeout(() => this._highlightOrder(o.id), 200); },
         }));
 
         const productCmds = this.products.slice(0, 15).map(p => ({
-            label: `🌺 ${p.name}`,
+            label: `${p.name}`,
             hint:  `Редактировать товар · ${p.variations?.length || 0} вар.`,
             action: () => { this._switchTab('catalog'); setTimeout(() => this._openProductModal(p), 200); },
         }));
@@ -857,7 +856,7 @@ export class AdminPage {
         cmd.action();
     }
 
-    // ─── Helpers ─────────────────────────────────────────────────────────────
+    // Вспомогательные функции
 
     _statusLabel(status) {
         const map = {
