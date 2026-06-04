@@ -128,10 +128,10 @@ export class AdminPage {
     // ─── DASHBOARD ───────────────────────────────────────────────────────────
 
     _renderDashboard() {
-        const stats  = OrderService.getStats();
         const orders = OrderService.getAll();
         const today  = new Date().toISOString().slice(0, 10);
         const todayCount = orders.filter(o => o.date?.startsWith(today)).length;
+        const pendingCount = orders.filter(o => o.status === 'pending').length;
         const weekRevenue = orders
             .filter(o => {
                 const d = new Date(o.date);
@@ -145,7 +145,7 @@ export class AdminPage {
                 ${this._metricCard('📦', 'Заказов сегодня',      todayCount,                             'amber')}
                 ${this._metricCard('💰', 'Выручка за 7 дней',    weekRevenue.toLocaleString('ru-RU') + ' ₽', 'green')}
                 ${this._metricCard('🌸', 'Товаров в каталоге',   this.products.length,                   'blue')}
-                ${this._metricCard('⏳', 'Ожидают обработки',    stats.statusCounts.pending,             'red')}
+                ${this._metricCard('⏳', 'Ожидают обработки',    pendingCount,                           'red')}
             </div>
 
             <div class="dashboard-grid">
@@ -168,10 +168,9 @@ export class AdminPage {
 
                 <section class="assistant-section">
                     <h3 class="section-title">🤖 Умный ассистент</h3>
-                    <div id="admin-assistant-tips"></div>
-                    <a href="analitick.html" class="btn btn-secondary admin-btn-sm" style="margin-top:1rem;display:inline-block;">
-                        Подробная аналитика →
-                    </a>
+                    <div class="assistant-stub">
+                        <p class="assistant-stub__hint">В разработке</p>
+                    </div>
                 </section>
             </div>
         `;
@@ -184,7 +183,6 @@ export class AdminPage {
             });
         });
 
-        this._renderAssistant(document.getElementById('admin-assistant-tips'));
         pane.dataset.rendered = '1';
     }
 
