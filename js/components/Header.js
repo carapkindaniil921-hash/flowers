@@ -27,7 +27,7 @@ export class Header {
             : '';
         const userHTML = user
             ? `${adminLink}
-               <span class="header-username">${user.role === 'admin' ? '👑 ' : ''}${user.name}</span>
+               <span class="header-username">${user.name}</span>
                <button class="btn-logout" id="btn-logout">Выйти</button>`
             : `<a href="login.html" class="login-link">
                    <img src="../../images/icons/Login.png" alt="Login" class="login-icon">
