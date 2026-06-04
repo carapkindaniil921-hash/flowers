@@ -6,7 +6,7 @@ export class ConstructorPage extends BasePage {
         super();
         this.placedFlowers = [];
         this.selectedFlower = null;
-        this.isDragging = false; // Флаг защиты от случайной постановки после драга
+        this.isDragging = false;
     }
 
     init() {
@@ -19,7 +19,6 @@ export class ConstructorPage extends BasePage {
             this.loadDraft();
             this.updateSummary();
             
-            // АВТО-ВЫБОР ПЕРВОГО ЦВЕТКА ПРИ ЗАГРУЗКЕ
             const firstCard = document.querySelector('.flower-card');
             if (firstCard) firstCard.click();
             
@@ -75,13 +74,18 @@ export class ConstructorPage extends BasePage {
     }
 
     bindEvents() {
-        // 1. Выбор основы
         this.baseOptions.forEach(opt => {
             opt.addEventListener('click', () => {
                 this.baseOptions.forEach(o => o.classList.remove('active'));
                 opt.classList.add('active');
                 
                 const sizeClass = opt.dataset.base;
+                
+                // Очистка цветов при смене основы
+                if (this.flowersContainer) {
+                    this.flowersContainer.innerHTML = '';
+                }
+                this.placedFlowers = [];
                 
                 if (this.wreathBase) {
                     const imagePath = `../images/wreaths/base-${sizeClass}.jpg`;
@@ -101,18 +105,15 @@ export class ConstructorPage extends BasePage {
             });
         });
 
-        // 2. Клик по холсту (Постановка цветка)
+     
         if (this.canvas) {
             this.canvas.addEventListener('click', (e) => {
-                // Если мы только что перетащили цветок - игнорируем клик
                 if (this.isDragging) {
                     this.isDragging = false;
                     return; 
                 }
 
-                // Не ставим новый цветок, если кликнули по существующему
                 if (e.target.closest('.placed-flower')) return;
-                
                 if (!this.selectedFlower) return;
 
                 const rect = this.canvas.getBoundingClientRect();
@@ -123,7 +124,7 @@ export class ConstructorPage extends BasePage {
             });
         }
 
-        // 3. Очистить венок
+      
         if (this.summary.clearBtn) {
             this.summary.clearBtn.addEventListener('click', () => {
                 if (this.placedFlowers.length === 0) return;
@@ -136,7 +137,6 @@ export class ConstructorPage extends BasePage {
             });
         }
 
-        // 4. Оформить заказ
         if (this.summary.cartBtn) {
             this.summary.cartBtn.addEventListener('click', () => {
                 const activeBase = document.querySelector('.base-option.active');
@@ -149,23 +149,58 @@ export class ConstructorPage extends BasePage {
                     return;
                 }
 
-                const order = {
-                    base: {
-                        id: activeBase.dataset.base,
-                        name: activeBase.textContent.trim(),
-                        price: parseInt(activeBase.dataset.price) || 0
-                    },
-                    flowers: this.placedFlowers.map(f => ({
-                        id: f.id, name: f.name, price: f.price, x: f.x, y: f.y, image: f.image
-                    })),
-                    total: this.calculateTotal(),
-                    date: new Date().toISOString()
+                const baseName = activeBase.querySelector('span')?.textContent || 'Основа';
+                const basePrice = parseInt(activeBase.dataset.price) || 0;
+                const baseImage = activeBase.querySelector('img')?.src || '';
+                const flowersTotal = this.placedFlowers.reduce((sum, f) => sum + f.price, 0);
+                const totalPrice = basePrice + flowersTotal;
+
+                const wreathItem = {
+                    id: Date.now(),
+                    originalId: 'custom-wreath',
+                    name: `Собранный венок (${baseName})`,
+                    price: totalPrice,
+                    image: baseImage,
+                    color: 'custom',
+                    colorHex: '#4b5563',
+                    quantity: 1
                 };
 
-                localStorage.setItem('wreathOrder', JSON.stringify(order));
-                alert(`✅ Заказ сохранён!\nСумма: ${order.total} ₽`);
+                const cart = window.appState?.get('cart') || [];
+                cart.push(wreathItem);
+
+                if (window.appState) {
+                    window.appState.set('cart', cart);
+                }
+
+                document.dispatchEvent(new CustomEvent('cart-updated', { detail: { cart } }));
+                
+                this._showToast(` Венок добавлен в корзину! ${totalPrice} ₽`);
+
+                
+                this.placedFlowers = [];
+                if (this.flowersContainer) this.flowersContainer.innerHTML = '';
+                this.updateSummary();
+                this.saveDraft();
             });
         }
+    }
+
+    _showToast(message) {
+        const existing = document.querySelector('.cart-toast');
+        if (existing) existing.remove();
+
+        const toast = document.createElement('div');
+        toast.className = 'cart-toast';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        requestAnimationFrame(() => toast.classList.add('cart-toast--visible'));
+
+        setTimeout(() => {
+            toast.classList.remove('cart-toast--visible');
+            setTimeout(() => toast.remove(), 300);
+        }, 2500);
     }
 
     placeFlower(flower, x, y) {
@@ -177,7 +212,6 @@ export class ConstructorPage extends BasePage {
         el.style.top = `${y - 35}px`;
         
         if (flower.image) {
-            // pointer-events: none и user-select: none критически важны
             el.innerHTML = `<img src="${flower.image}" alt="${flower.name}" style="pointer-events: none; width: 100%; height: 100%; user-select: none;">`;
         } else {
             el.style.background = '#cbd5e1';
@@ -185,10 +219,8 @@ export class ConstructorPage extends BasePage {
             el.textContent = flower.name.charAt(0);
         }
 
-        // Привязываем надежную логику драга
         this.attachCustomDrag(el);
 
-        // Удаление по двойному клику
         el.addEventListener('dblclick', (e) => {
             e.stopPropagation();
             if (confirm('Удалить этот цветок?')) {
@@ -206,44 +238,38 @@ export class ConstructorPage extends BasePage {
     }
 
     attachCustomDrag(el) {
-        // Храним состояние прямо в элементе
         el.dragState = { isDragging: false };
 
         el.addEventListener('mousedown', (e) => {
             e.preventDefault();
-            e.stopPropagation(); // Блокируем клик по холсту
+            e.stopPropagation();
             
             const state = el.dragState;
             state.isDragging = true;
-            this.isDragging = false; // Сброс флага для холста
+            this.isDragging = false;
 
             state.startX = e.clientX;
             state.startY = e.clientY;
             state.initialLeft = parseInt(el.style.left) || 0;
             state.initialTop = parseInt(el.style.top) || 0;
             
-            // Кешируем размеры холста
             state.canvasRect = this.canvas.getBoundingClientRect();
             
             el.style.zIndex = 1000; 
             el.style.cursor = 'grabbing';
             el.style.transition = 'none';
 
-            // Создаем функции-обработчики и привязываем их К ЭЛЕМЕНТУ
             const moveHandler = this.handleDragMove.bind(this, el);
             const upHandler = this.handleDragEnd.bind(this, el);
 
-            // Сохраняем ссылки, чтобы потом удалить
             state.moveHandler = moveHandler;
             state.upHandler = upHandler;
 
-            // Вешаем на ДОКУМЕНТ
             document.addEventListener('mousemove', moveHandler);
             document.addEventListener('mouseup', upHandler);
         });
     }
 
-    // Вынесенные обработчики (гарантируют корректное удаление)
     handleDragMove(el, e) {
         const state = el.dragState;
         if (!state.isDragging) return;
@@ -254,7 +280,6 @@ export class ConstructorPage extends BasePage {
         let newLeft = state.initialLeft + dx;
         let newTop = state.initialTop + dy;
 
-        // Жесткие границы
         const flowerSize = 70;
         newLeft = Math.max(0, Math.min(newLeft, state.canvasRect.width - flowerSize));
         newTop = Math.max(0, Math.min(newTop, state.canvasRect.height - flowerSize));
@@ -273,7 +298,6 @@ export class ConstructorPage extends BasePage {
         el.style.cursor = 'move';
         el.style.transition = '';
 
-        // Обновляем данные
         const placed = this.placedFlowers.find(f => f.el === el);
         if (placed) {
             placed.x = parseInt(el.style.left) + 35;
@@ -281,10 +305,8 @@ export class ConstructorPage extends BasePage {
             this.saveDraft();
         }
 
-        // Флаг для холста
         this.isDragging = true; 
 
-        // ОБЯЗАТЕЛЬНО удаляем слушатели с документа
         document.removeEventListener('mousemove', state.moveHandler);
         document.removeEventListener('mouseup', state.upHandler);
     }
